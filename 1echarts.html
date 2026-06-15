@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>应届生求职周期对比图</title>
+  <!-- CDN引入ECharts，无需本地文件，GitHub Pages直接加载 -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <style>
+    /* 容器铺满，透明背景无多余留白 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      height: 100%;
+    }
+    #chart-box {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-box"></div>
+  <script>
+    // 初始化图表容器
+    const myChart = echarts.init(document.getElementById('chart-box'), null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+
+    // 上方解析的完整option配置
+    const option = {
+      backgroundColor: 'transparent',
+      title: [
+        {
+          text: '应届生求职周期对比图'
+        }
+      ],
+      polar: {
+        radius: [30, '80%']
+      },
+      angleAxis: {
+        max: 180,
+        startAngle: 75,
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,0.2)'
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,0.15)'
+          }
+        }
+      },
+      radiusAxis: {
+        type: 'category',
+        data: ['普通本科生', '听障本科生'],
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,0.2)'
+          }
+        }
+      },
+      tooltip: {
+        formatter: function(params) {
+          return params.name + '：' + params.value + '天' + (params.dataIndex === 1 ? '<br>超70%毕业生求职时长超4个月' : '')
+        }
+      },
+      series: {
+        type: 'bar',
+        data: [62, 158],
+        coordinateSystem: 'polar',
+        itemStyle: {
+          color: function(params) {
+            return params.dataIndex === 0 ? '#ffd040' : '#ff8c33'
+          },
+          opacity: 0.85
+        },
+        label: {
+          show: true,
+          position: 'middle',
+          formatter: '{b}: {c}天'
+        }
+      }
+    };
+
+    // 渲染图表
+    myChart.setOption(option);
+
+    // 窗口自适应缩放
+    window.addEventListener('resize', () => myChart.resize());
+  </script>
+</body>
+</html>
