@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>应届生求职周期对比图</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      height: 100%;
+    }
+    #chart-box {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-box"></div>
+  <script>
+    const myChart = echarts.init(document.getElementById('chart-box'), null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+
+    const option = {
+      backgroundColor: 'transparent',
+      title: [
+        {
+          text: '应届生求职周期对比图',
+          textStyle: {
+            color: '#000' // 标题文字改为黑色
+          }
+        }
+      ],
+      polar: {
+        radius: [30, '80%']
+      },
+      angleAxis: {
+        max: 180,
+        startAngle: 75,
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(0,0,0,0.2)' // 坐标轴线条改为黑色半透明
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(0,0,0,0.15)' // 分割线改为黑色半透明
+          }
+        },
+        axisLabel: {
+          color: '#000' // 角度刻度文字黑色
+        }
+      },
+      radiusAxis: {
+        type: 'category',
+        data: ['普通本科生', '听障本科生'],
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(0,0,0,0.2)'
+          }
+        },
+        axisLabel: {
+          color: '#000' // 分类文字改为黑色
+        }
+      },
+      tooltip: {
+        formatter: function(params) {
+          return params.name + '：' + params.value + '天' + (params.dataIndex === 1 ? '<br>超70%毕业生求职时长超4个月' : '')
+        },
+        textStyle: {
+          color: '#000' // 悬浮提示文字黑色
+        }
+      },
+      series: {
+        type: 'bar',
+        data: [62, 158],
+        coordinateSystem: 'polar',
+        itemStyle: {
+          color: function(params) {
+            return params.dataIndex === 0 ? '#ffd040' : '#ff8c33'
+          },
+          opacity: 0.85
+        },
+        label: {
+          show: true,
+          position: 'middle',
+          formatter: '{b}: {c}天',
+          color: '#000' // 条形内部标签文字黑色
+        }
+      }
+    };
+
+    myChart.setOption(option);
+    window.addEventListener('resize', () => myChart.resize());
+  </script>
+</body>
+</html>
